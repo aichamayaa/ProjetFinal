@@ -19,11 +19,7 @@ public class RappelScheduler {
     private final RendezVousRepository rendezVousRepository;
     private final NotificationService notificationService;
 
-    /**
-     * Vérifie toutes les heures les rendez-vous dans les 24-25 heures à venir
-     * et envoie un rappel simulé.
-     */
-    @Scheduled(fixedRate = 3600000) // chaque heure
+    @Scheduled(fixedRate = 3600000)
     public void envoyerRappels24h() {
         LocalDateTime dans24h = LocalDateTime.now().plusHours(24);
         LocalDateTime dans25h = LocalDateTime.now().plusHours(25);

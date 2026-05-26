@@ -122,7 +122,6 @@ public class RendezVousService {
         RendezVous rdv = rendezVousRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Rendez-vous introuvable: " + id));
 
-        // Admin can confirm any RDV; médecin can only confirm their own
         boolean isMedecinTraitant = rdv.getMedecin().getEmail().equals(emailActeur);
         boolean isAdmin = !medecinRepository.existsByEmail(emailActeur);
 

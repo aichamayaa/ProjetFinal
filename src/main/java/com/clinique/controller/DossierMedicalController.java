@@ -58,7 +58,7 @@ public class DossierMedicalController {
         if (isAdmin) {
             return ResponseEntity.ok(ApiResponse.success("Tous les dossiers.", dossierMedicalService.getTousDossiers()));
         } else {
-            // Médecin: retourne les dossiers qu'il a créés
+
             return ResponseEntity.ok(ApiResponse.success("Mes dossiers médecin.", dossierMedicalService.getDossiersParMedecin(auth.getName())));
         }
     }

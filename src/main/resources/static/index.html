@@ -22,7 +22,6 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
 
-  /* ── NAV ── */
   nav {
     background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
     color: #fff;
@@ -46,14 +45,11 @@
   nav .btn-logout { background: rgba(220,38,38,.7); border: none; color: #fff; padding: 6px 14px; border-radius: 6px; cursor: pointer; transition: background .2s; }
   nav .btn-logout:hover { background: #dc2626; }
 
-  /* ── MAIN LAYOUT ── */
   main { max-width: 1100px; margin: 0 auto; padding: 28px 16px; }
 
-  /* ── CARDS ── */
   .card { background: var(--card); border-radius: var(--radius); box-shadow: 0 1px 4px rgba(0,0,0,.08); padding: 24px; margin-bottom: 20px; }
   .card h2 { font-size: 1.2rem; margin-bottom: 16px; color: var(--primary); display: flex; align-items: center; gap: 8px; }
 
-  /* ── FORMS ── */
   .form-row { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 12px; }
   .form-group { display: flex; flex-direction: column; gap: 5px; flex: 1; min-width: 200px; }
   .form-group label { font-size: .83rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
@@ -65,7 +61,6 @@
     outline: none; border-color: var(--primary); background: #fff;
   }
 
-  /* ── BUTTONS ── */
   .btn { padding: 9px 20px; border-radius: 7px; border: none; cursor: pointer; font-size: .9rem; font-weight: 600; transition: all .2s; display: inline-flex; align-items: center; gap: 6px; }
   .btn-primary { background: var(--primary); color: #fff; }
   .btn-primary:hover { background: var(--primary-dark); }
@@ -79,7 +74,6 @@
   .btn-secondary:hover { background: #cbd5e1; }
   .btn-sm { padding: 5px 12px; font-size: .82rem; }
 
-  /* ── TABLE ── */
   .table-wrap { overflow-x: auto; }
   table { width: 100%; border-collapse: collapse; font-size: .9rem; }
   thead tr { background: #f1f5f9; }
@@ -87,7 +81,6 @@
   td { padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
   tr:hover td { background: #f8fafc; }
 
-  /* ── BADGES ── */
   .badge { padding: 3px 10px; border-radius: 20px; font-size: .75rem; font-weight: 700; text-transform: uppercase; }
   .badge-planifie { background: #dbeafe; color: #1e40af; }
   .badge-confirme { background: #dcfce7; color: #15803d; }
@@ -97,13 +90,11 @@
   .badge-medecin { background: #dbeafe; color: #1e40af; }
   .badge-patient { background: #dcfce7; color: #15803d; }
 
-  /* ── ALERTS ── */
   .alert { padding: 12px 16px; border-radius: var(--radius); margin-bottom: 14px; font-size: .9rem; display: flex; align-items: center; gap: 8px; }
   .alert-success { background: #dcfce7; color: #15803d; border-left: 4px solid #16a34a; }
   .alert-danger { background: #fee2e2; color: #991b1b; border-left: 4px solid #dc2626; }
   .alert-info { background: #dbeafe; color: #1e40af; border-left: 4px solid #2563eb; }
 
-  /* ── LOGIN PAGE ── */
   #loginPage { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%); }
   .login-card { background: #fff; border-radius: 16px; padding: 40px; width: 100%; max-width: 420px; box-shadow: 0 20px 60px rgba(0,0,0,.3); }
   .login-card h1 { font-size: 1.5rem; color: var(--primary); margin-bottom: 8px; text-align: center; }
@@ -112,7 +103,6 @@
   .tab { flex: 1; padding: 9px; text-align: center; cursor: pointer; font-weight: 600; font-size: .88rem; background: #f8fafc; border: none; transition: all .2s; }
   .tab.active { background: var(--primary); color: #fff; }
 
-  /* ── GRID ── */
   .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
   .stat-card { background: var(--card); border-radius: var(--radius); padding: 20px; box-shadow: 0 1px 4px rgba(0,0,0,.08); display: flex; align-items: center; gap: 16px; }
   .stat-icon { width: 52px; height: 52px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
@@ -123,13 +113,11 @@
   .stat-info h3 { font-size: 1.6rem; font-weight: 700; }
   .stat-info p { color: var(--muted); font-size: .85rem; }
 
-  /* ── MODAL ── */
   .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.5); display: flex; align-items: center; justify-content: center; z-index: 200; padding: 16px; }
   .modal { background: #fff; border-radius: 14px; padding: 28px; max-width: 560px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,.3); }
   .modal h3 { font-size: 1.1rem; margin-bottom: 20px; color: var(--primary); }
   .modal-footer { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
 
-  /* ── MISC ── */
   .empty { text-align: center; padding: 40px; color: var(--muted); font-size: .95rem; }
   .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
   .section-header h2 { font-size: 1.2rem; color: var(--primary); display: flex; align-items: center; gap: 8px; }
@@ -143,10 +131,9 @@
 </head>
 <body>
 
-<!-- ══════════════ LOGIN PAGE ══════════════ -->
 <div id="loginPage">
   <div class="login-card">
-    <h1>🏥 Clinique Médicale</h1>
+    <h1>Clinique Médicale</h1>
     <p>Portail de gestion médicale</p>
 
     <div class="quick-info">
@@ -161,7 +148,6 @@
       <button class="tab" onclick="switchTab('register')">Inscription Patient</button>
     </div>
 
-    <!-- LOGIN FORM -->
     <div id="loginForm">
       <div id="loginAlert"></div>
       <div class="form-group" style="margin-bottom:12px">
@@ -177,22 +163,21 @@
       </button>
     </div>
 
-    <!-- REGISTER FORM -->
     <div id="registerForm" class="hidden">
       <div id="registerAlert"></div>
       <div class="form-row">
         <div class="form-group">
           <label>Nom</label>
-          <input type="text" id="regNom" placeholder="Dupont"/>
+          <input type="text" id="regNom" placeholder="Toure"/>
         </div>
         <div class="form-group">
           <label>Prénom</label>
-          <input type="text" id="regPrenom" placeholder="Marie"/>
+          <input type="text" id="regPrenom" placeholder="Ex.: Aicha"/>
         </div>
       </div>
       <div class="form-group" style="margin-bottom:12px">
         <label>Email</label>
-        <input type="email" id="regEmail" placeholder="marie.dupont@email.com"/>
+        <input type="email" id="regEmail" placeholder="Ex.: aicha.toure@email.com"/>
       </div>
       <div class="form-row">
         <div class="form-group">
@@ -201,7 +186,7 @@
         </div>
         <div class="form-group">
           <label>Téléphone</label>
-          <input type="text" id="regTel" placeholder="06 12 34 56 78"/>
+          <input type="text" id="regTel" placeholder="(Ex.: 514-555-1234"/>
         </div>
       </div>
       <div class="form-group" style="margin-bottom:20px">
@@ -213,10 +198,9 @@
   </div>
 </div>
 
-<!-- ══════════════ APP (shown after login) ══════════════ -->
 <div id="app" class="hidden">
   <nav>
-    <div class="logo"><span>🏥</span> Clinique Médicale</div>
+    <div class="logo">Clinique Médicale</div>
     <div class="nav-links" id="navLinks"></div>
     <div class="user-info">
       <span class="user-badge" id="userBadge"></span>
@@ -226,14 +210,12 @@
   <main id="pageContent"></main>
 </div>
 
-<!-- ══════════════ MODAL CONTAINER ══════════════ -->
 <div id="modalContainer"></div>
 
 <script>
 const API = '';
 let token = null, currentUser = null;
 
-// ── UTILS ──
 const $ = id => document.getElementById(id);
 const fmt = dt => dt ? new Date(dt).toLocaleString('fr-FR', {day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}) : '–';
 const fmtDate = d => d ? new Date(d).toLocaleDateString('fr-FR') : '–';
@@ -270,7 +252,6 @@ function modal(html) {
 }
 function closeModal() { $('modalContainer').innerHTML = ''; }
 
-// ── AUTH ──
 function switchTab(t) {
   document.querySelectorAll('.tab').forEach(b => b.classList.toggle('active', b.textContent.includes(t==='login'?'Connexion':'Inscription')));
   $('loginForm').classList.toggle('hidden', t!=='login');
@@ -315,7 +296,6 @@ function enterApp() {
   navigateTo('dashboard');
 }
 
-// ── NAVIGATION ──
 const PAGES = {
   ROLE_ADMIN:   ['dashboard','rendezVous','patients','medecins','ordonnances','dossiers'],
   ROLE_MEDECIN: ['dashboard','rendezVous','patients','ordonnances','dossiers'],
@@ -327,8 +307,8 @@ const PAGE_LABELS = {
   mesOrdonnances:'Mes Ordonnances', mesDossiers:'Mes Dossiers',
 };
 const PAGE_ICONS = {
-  dashboard:'📊', rendezVous:'📅', patients:'👥', medecins:'🩺',
-  ordonnances:'💊', dossiers:'📁', mesOrdonnances:'💊', mesDossiers:'📁',
+  dashboard:'', rendezVous:'', patients:'', medecins:'',
+  ordonnances:'', dossiers:'', mesOrdonnances:'', mesDossiers:'',
 };
 
 function buildNav() {
@@ -355,7 +335,6 @@ function navigateTo(page) {
   if(pages[page]) pages[page]();
 }
 
-// ── DASHBOARD ──
 async function renderDashboard() {
   $('pageContent').innerHTML = `<div class="card"><div class="spinner"></div> Chargement…</div>`;
   try {
@@ -369,22 +348,22 @@ async function renderDashboard() {
       ]);
       const upcoming = rdvs.filter(r=>r.statut==='PLANIFIE'||r.statut==='CONFIRME').length;
       $('statsGrid').innerHTML = `
-        <div class="stat-card"><div class="stat-icon blue">📅</div><div class="stat-info"><h3>${rdvs.length}</h3><p>Total rendez-vous</p></div></div>
-        <div class="stat-card"><div class="stat-icon green">✅</div><div class="stat-info"><h3>${upcoming}</h3><p>RDV à venir</p></div></div>
-        <div class="stat-card"><div class="stat-icon purple">👥</div><div class="stat-info"><h3>${patients.length}</h3><p>Patients</p></div></div>
-        <div class="stat-card"><div class="stat-icon orange">🩺</div><div class="stat-info"><h3>${medecins.length}</h3><p>Médecins</p></div></div>`;
+        <div class="stat-card"><div class="stat-icon blue"></div><div class="stat-info"><h3>${rdvs.length}</h3><p>Total rendez-vous</p></div></div>
+        <div class="stat-card"><div class="stat-icon green"></div><div class="stat-info"><h3>${upcoming}</h3><p>RDV à venir</p></div></div>
+        <div class="stat-card"><div class="stat-icon purple"></div><div class="stat-info"><h3>${patients.length}</h3><p>Patients</p></div></div>
+        <div class="stat-card"><div class="stat-icon orange"></div><div class="stat-info"><h3>${medecins.length}</h3><p>Médecins</p></div></div>`;
       $('dashExtra').innerHTML = renderRecentRdvTable(rdvs.slice(0,5));
     } else if (role === 'ROLE_MEDECIN') {
       const rdvs = await api('GET','/api/rendez-vous/mes-rendez-vous');
       const upcoming = rdvs.filter(r=>r.statut==='PLANIFIE'||r.statut==='CONFIRME').length;
       $('statsGrid').innerHTML = `
-        <div class="stat-card"><div class="stat-icon blue">📅</div><div class="stat-info"><h3>${rdvs.length}</h3><p>Mes rendez-vous</p></div></div>
-        <div class="stat-card"><div class="stat-icon green">✅</div><div class="stat-info"><h3>${upcoming}</h3><p>À venir</p></div></div>`;
+        <div class="stat-card"><div class="stat-icon blue"></div><div class="stat-info"><h3>${rdvs.length}</h3><p>Mes rendez-vous</p></div></div>
+        <div class="stat-card"><div class="stat-icon green"></div><div class="stat-info"><h3>${upcoming}</h3><p>À venir</p></div></div>`;
       $('dashExtra').innerHTML = renderRecentRdvTable(rdvs.slice(0,5));
     } else {
       const rdvs = await api('GET','/api/rendez-vous/mes-rendez-vous');
       $('statsGrid').innerHTML = `
-        <div class="stat-card"><div class="stat-icon blue">📅</div><div class="stat-info"><h3>${rdvs.length}</h3><p>Mes rendez-vous</p></div></div>`;
+        <div class="stat-card"><div class="stat-icon blue"></div><div class="stat-info"><h3>${rdvs.length}</h3><p>Mes rendez-vous</p></div></div>`;
       $('dashExtra').innerHTML = renderRecentRdvTable(rdvs.slice(0,5));
     }
   } catch(e) { $('pageContent').innerHTML = `<div class="alert alert-danger">${e.message}</div>`; }
@@ -392,7 +371,7 @@ async function renderDashboard() {
 
 function renderRecentRdvTable(rdvs) {
   if(!rdvs.length) return '<div class="card"><div class="empty">Aucun rendez-vous récent</div></div>';
-  return `<div class="card"><h2>📅 Rendez-vous récents</h2><div class="table-wrap"><table>
+  return `<div class="card"><h2>Rendez-vous récents</h2><div class="table-wrap"><table>
     <thead><tr><th>Date</th><th>Patient</th><th>Médecin</th><th>Statut</th></tr></thead>
     <tbody>${rdvs.map(r=>`<tr>
       <td>${fmt(r.dateHeure)}</td>
@@ -402,7 +381,6 @@ function renderRecentRdvTable(rdvs) {
     </tr>`).join('')}</tbody></table></div></div>`;
 }
 
-// ── RENDEZ-VOUS ──
 async function renderRendezVous() {
   $('pageContent').innerHTML = `<div class="card"><div class="spinner"></div> Chargement…</div>`;
   try {
@@ -414,7 +392,7 @@ async function renderRendezVous() {
     $('pageContent').innerHTML = `
       <div class="card">
         <div class="section-header">
-          <h2>📅 Rendez-vous</h2>
+          <h2>Rendez-vous</h2>
           ${!isMedecin ? `<button class="btn btn-primary" onclick="openNewRdvModal()">＋ Nouveau RDV</button>` : ''}
         </div>
         <div id="rdvAlert"></div>
@@ -459,7 +437,7 @@ async function openNewRdvModal() {
       </select></div>`;
   }
   modal(`<div class="modal">
-    <h3>📅 Nouveau Rendez-vous</h3>
+    <h3>Nouveau Rendez-vous</h3>
     <div id="rdvModalAlert"></div>
     <div class="form-row">
       ${patientField}
@@ -522,14 +500,13 @@ async function annulerRdv(id) {
   catch(e) { toast(e.message,'danger'); }
 }
 
-// ── PATIENTS ──
 async function renderPatients() {
   $('pageContent').innerHTML = `<div class="card"><div class="spinner"></div> Chargement…</div>`;
   try {
     const patients = await api('GET','/api/patients');
     $('pageContent').innerHTML = `<div class="card">
       <div class="section-header">
-        <h2>👥 Patients</h2>
+        <h2>Patients</h2>
         <button class="btn btn-primary" onclick="openNewPatientModal()">＋ Nouveau Patient</button>
       </div>
       ${patients.length ? `<div class="table-wrap"><table>
@@ -546,7 +523,6 @@ async function renderPatients() {
   } catch(e) { $('pageContent').innerHTML = `<div class="alert alert-danger">${e.message}</div>`; }
 }
 
-// ── MÉDECINS ──
 async function renderMedecins() {
   $('pageContent').innerHTML = `<div class="card"><div class="spinner"></div> Chargement…</div>`;
   try {
@@ -554,7 +530,7 @@ async function renderMedecins() {
     const isAdmin = currentUser.role==='ROLE_ADMIN';
     $('pageContent').innerHTML = `<div class="card">
       <div class="section-header">
-        <h2>🩺 Médecins</h2>
+        <h2>Médecins</h2>
         ${isAdmin?`<button class="btn btn-primary" onclick="openNewMedecinModal()">＋ Nouveau Médecin</button>`:''}
       </div>
       <div id="medecinAlert"></div>
@@ -623,7 +599,6 @@ async function desactiverMedecin(id) {
   catch(e) { toast(e.message,'danger'); }
 }
 
-// ── ORDONNANCES (admin/médecin) ──
 async function renderOrdonnances() {
   $('pageContent').innerHTML = `<div class="card"><div class="spinner"></div> Chargement…</div>`;
   try {
@@ -631,7 +606,7 @@ async function renderOrdonnances() {
     const isMedecin = currentUser.role==='ROLE_MEDECIN';
     $('pageContent').innerHTML = `<div class="card">
       <div class="section-header">
-        <h2>💊 Ordonnances</h2>
+        <h2>Ordonnances</h2>
         ${isMedecin?`<button class="btn btn-primary" onclick="openNewOrdoModal()">＋ Nouvelle Ordonnance</button>`:''}
       </div>
       ${renderOrdoTable(ordonnances)}
@@ -643,7 +618,7 @@ async function renderMesOrdonnances() {
   $('pageContent').innerHTML = `<div class="card"><div class="spinner"></div> Chargement…</div>`;
   try {
     const ordonnances = await api('GET','/api/ordonnances/mes-ordonnances');
-    $('pageContent').innerHTML = `<div class="card"><div class="section-header"><h2>💊 Mes Ordonnances</h2></div>${renderOrdoTable(ordonnances)}</div>`;
+    $('pageContent').innerHTML = `<div class="card"><div class="section-header"><h2>Mes Ordonnances</h2></div>${renderOrdoTable(ordonnances)}</div>`;
   } catch(e) { $('pageContent').innerHTML = `<div class="alert alert-danger">${e.message}</div>`; }
 }
 
@@ -665,7 +640,7 @@ async function openNewOrdoModal() {
   const rdvs = await api('GET','/api/rendez-vous/mes-rendez-vous');
   const confirmes = rdvs.filter(r=>r.statut==='CONFIRME'||r.statut==='PLANIFIE');
   modal(`<div class="modal">
-    <h3>💊 Nouvelle Ordonnance</h3>
+    <h3>Nouvelle Ordonnance</h3>
     <div id="ordoModalAlert"></div>
     <div class="form-group" style="margin-bottom:12px">
       <label>Rendez-vous</label>
@@ -715,7 +690,6 @@ async function submitNewOrdo() {
   } catch(e) { showAlert('ordoModalAlert', e.message); }
 }
 
-// ── DOSSIERS MÉDICAUX ──
 async function renderDossiers() {
   $('pageContent').innerHTML = `<div class="card"><div class="spinner"></div> Chargement…</div>`;
   try {
@@ -723,7 +697,7 @@ async function renderDossiers() {
     const isMedecin = currentUser.role==='ROLE_MEDECIN';
     $('pageContent').innerHTML = `<div class="card">
       <div class="section-header">
-        <h2>📁 Dossiers Médicaux</h2>
+        <h2>Dossiers Médicaux</h2>
         ${isMedecin?`<button class="btn btn-primary" onclick="openNewDossierModal()">＋ Nouveau Dossier</button>`:''}
       </div>
       ${renderDossierTable(dossiers)}
@@ -735,7 +709,7 @@ async function renderMesDossiers() {
   $('pageContent').innerHTML = `<div class="card"><div class="spinner"></div> Chargement…</div>`;
   try {
     const dossiers = await api('GET','/api/dossiers-medicaux/mes-dossiers');
-    $('pageContent').innerHTML = `<div class="card"><div class="section-header"><h2>📁 Mes Dossiers Médicaux</h2></div>${renderDossierTable(dossiers)}</div>`;
+    $('pageContent').innerHTML = `<div class="card"><div class="section-header"><h2>Mes Dossiers Médicaux</h2></div>${renderDossierTable(dossiers)}</div>`;
   } catch(e) { $('pageContent').innerHTML = `<div class="alert alert-danger">${e.message}</div>`; }
 }
 
@@ -756,7 +730,7 @@ function renderDossierTable(dossiers) {
 async function openNewDossierModal() {
   const patients = await api('GET','/api/patients');
   modal(`<div class="modal">
-    <h3>📁 Nouveau Dossier Médical</h3>
+    <h3>Nouveau Dossier Médical</h3>
     <div id="dossierModalAlert"></div>
     <div class="form-group" style="margin-bottom:12px">
       <label>Patient</label>
@@ -798,10 +772,9 @@ async function submitNewDossier() {
 }
 
 
-// ── PATIENTS – Ajouter un patient ──
 function openNewPatientModal() {
   modal(`<div class="modal">
-    <h3>👥 Nouveau Patient</h3>
+    <h3>Nouveau Patient</h3>
     <div id="patientModalAlert"></div>
     <div class="form-row">
       <div class="form-group"><label>Nom</label><input type="text" id="pNom"/></div>
@@ -839,7 +812,6 @@ async function submitNewPatient() {
   } catch(e) { showAlert('patientModalAlert', e.message); }
 }
 
-// ── KEYBOARD SHORTCUT (Enter on login) ──
 document.addEventListener('keydown', e => {
   if (e.key==='Enter' && $('loginPage').style.display!=='none') doLogin();
 });

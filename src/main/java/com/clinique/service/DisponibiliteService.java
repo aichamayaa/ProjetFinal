@@ -79,7 +79,6 @@ public class DisponibiliteService {
             }
         }
 
-        // Fetch all active RDVs for that day and check conflicts in Java
         LocalDateTime dayStart = dateHeure.toLocalDate().atStartOfDay();
         LocalDateTime dayEnd = dayStart.plusDays(1);
         List<RendezVous> rdvsDuJour = rendezVousRepository.findActiveByMedecinAndDay(medecinId, dayStart, dayEnd);

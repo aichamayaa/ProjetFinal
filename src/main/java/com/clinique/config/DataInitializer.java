@@ -25,7 +25,7 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        // Créer l'admin par défaut si inexistant
+
         if (!utilisateurRepository.existsByEmail("admin@clinique.com")) {
             Utilisateur admin = Utilisateur.builder()
                     .nom("Admin")
@@ -35,10 +35,10 @@ public class DataInitializer implements CommandLineRunner {
                     .role(Role.ROLE_ADMIN)
                     .build();
             utilisateurRepository.save(admin);
-            log.info("✅ Compte ADMIN créé: admin@clinique.com / admin123");
+            log.info("Compte ADMIN créé: admin@clinique.com / admin123");
         }
 
-        // Créer deux médecins de démonstration
+
         if (!medecinRepository.existsByEmail("dr.martin@clinique.com")) {
             Medecin martin = Medecin.builder()
                     .nom("Martin")
@@ -52,7 +52,7 @@ public class DataInitializer implements CommandLineRunner {
                     .dureeConsultationMinutes(30)
                     .build();
             medecinRepository.save(martin);
-            log.info("✅ Médecin créé: dr.martin@clinique.com / medecin123");
+            log.info("Médecin créé: dr.martin@clinique.com / medecin123");
         }
 
         if (!medecinRepository.existsByEmail("dr.dupont@clinique.com")) {
@@ -68,7 +68,7 @@ public class DataInitializer implements CommandLineRunner {
                     .dureeConsultationMinutes(45)
                     .build();
             medecinRepository.save(dupont);
-            log.info("✅ Médecin créé: dr.dupont@clinique.com / medecin123");
+            log.info("Médecin créé: dr.dupont@clinique.com / medecin123");
         }
     }
 }

@@ -21,6 +21,5 @@ public class RendezVousRequest {
     @NotNull(message = "L'ID du médecin est obligatoire")
     private Long medecinId;
 
-    // Utilisé uniquement par l'admin pour créer un RDV pour un patient spécifique
     private Long patientId;
 }
