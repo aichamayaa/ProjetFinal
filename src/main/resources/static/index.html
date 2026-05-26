@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Clinique Médicale – Portail</title>
+<style>
+  :root {
+    --primary: #2563eb;
+    --primary-dark: #1d4ed8;
+    --secondary: #0ea5e9;
+    --success: #16a34a;
+    --danger: #dc2626;
+    --warning: #d97706;
+    --bg: #f0f4f8;
+    --card: #ffffff;
+    --text: #1e293b;
+    --muted: #64748b;
+    --border: #e2e8f0;
+    --radius: 10px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+  /* ── NAV ── */
+  nav {
+    background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+    color: #fff;
+    padding: 0 24px;
+    display: flex; align-items: center; gap: 16px;
+    height: 60px; box-shadow: 0 2px 8px rgba(0,0,0,.2);
+    position: sticky; top: 0; z-index: 100;
+  }
+  nav .logo { font-size: 1.2rem; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+  nav .logo span { font-size: 1.4rem; }
+  nav .nav-links { display: flex; gap: 4px; margin-left: 24px; flex: 1; flex-wrap: wrap; }
+  nav .nav-links button {
+    background: transparent; border: none; color: rgba(255,255,255,.8);
+    padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: .9rem; transition: all .2s;
+  }
+  nav .nav-links button:hover, nav .nav-links button.active {
+    background: rgba(255,255,255,.2); color: #fff;
+  }
+  nav .user-info { margin-left: auto; display: flex; align-items: center; gap: 12px; font-size: .88rem; }
+  nav .user-badge { background: rgba(255,255,255,.2); padding: 4px 12px; border-radius: 20px; }
+  nav .btn-logout { background: rgba(220,38,38,.7); border: none; color: #fff; padding: 6px 14px; border-radius: 6px; cursor: pointer; transition: background .2s; }
+  nav .btn-logout:hover { background: #dc2626; }
+
+  /* ── MAIN LAYOUT ── */
+  main { max-width: 1100px; margin: 0 auto; padding: 28px 16px; }
+
+  /* ── CARDS ── */
+  .card { background: var(--card); border-radius: var(--radius); box-shadow: 0 1px 4px rgba(0,0,0,.08); padding: 24px; margin-bottom: 20px; }
+  .card h2 { font-size: 1.2rem; margin-bottom: 16px; color: var(--primary); display: flex; align-items: center; gap: 8px; }
+
+  /* ── FORMS ── */
+  .form-row { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 12px; }
+  .form-group { display: flex; flex-direction: column; gap: 5px; flex: 1; min-width: 200px; }
+  .form-group label { font-size: .83rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+  .form-group input, .form-group select, .form-group textarea {
+    border: 1.5px solid var(--border); border-radius: 7px; padding: 9px 12px;
+    font-size: .95rem; color: var(--text); background: #f8fafc; transition: border .2s;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    outline: none; border-color: var(--primary); background: #fff;
+  }
+
+  /* ── BUTTONS ── */
+  .btn { padding: 9px 20px; border-radius: 7px; border: none; cursor: pointer; font-size: .9rem; font-weight: 600; transition: all .2s; display: inline-flex; align-items: center; gap: 6px; }
+  .btn-primary { background: var(--primary); color: #fff; }
+  .btn-primary:hover { background: var(--primary-dark); }
+  .btn-success { background: var(--success); color: #fff; }
+  .btn-success:hover { background: #15803d; }
+  .btn-danger { background: var(--danger); color: #fff; }
+  .btn-danger:hover { background: #b91c1c; }
+  .btn-warning { background: var(--warning); color: #fff; }
+  .btn-warning:hover { background: #b45309; }
+  .btn-secondary { background: #e2e8f0; color: var(--text); }
+  .btn-secondary:hover { background: #cbd5e1; }
+  .btn-sm { padding: 5px 12px; font-size: .82rem; }
+
+  /* ── TABLE ── */
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+  thead tr { background: #f1f5f9; }
+  th { padding: 10px 12px; text-align: left; font-size: .78rem; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); border-bottom: 2px solid var(--border); }
+  td { padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  tr:hover td { background: #f8fafc; }
+
+  /* ── BADGES ── */
+  .badge { padding: 3px 10px; border-radius: 20px; font-size: .75rem; font-weight: 700; text-transform: uppercase; }
+  .badge-planifie { background: #dbeafe; color: #1e40af; }
+  .badge-confirme { background: #dcfce7; color: #15803d; }
+  .badge-termine { background: #f3f4f6; color: #374151; }
+  .badge-annule { background: #fee2e2; color: #991b1b; }
+  .badge-admin { background: #f3e8ff; color: #6b21a8; }
+  .badge-medecin { background: #dbeafe; color: #1e40af; }
+  .badge-patient { background: #dcfce7; color: #15803d; }
+
+  /* ── ALERTS ── */
+  .alert { padding: 12px 16px; border-radius: var(--radius); margin-bottom: 14px; font-size: .9rem; display: flex; align-items: center; gap: 8px; }
+  .alert-success { background: #dcfce7; color: #15803d; border-left: 4px solid #16a34a; }
+  .alert-danger { background: #fee2e2; color: #991b1b; border-left: 4px solid #dc2626; }
+  .alert-info { background: #dbeafe; color: #1e40af; border-left: 4px solid #2563eb; }
+
+  /* ── LOGIN PAGE ── */
+  #loginPage { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%); }
+  .login-card { background: #fff; border-radius: 16px; padding: 40px; width: 100%; max-width: 420px; box-shadow: 0 20px 60px rgba(0,0,0,.3); }
+  .login-card h1 { font-size: 1.5rem; color: var(--primary); margin-bottom: 8px; text-align: center; }
+  .login-card p { color: var(--muted); text-align: center; margin-bottom: 28px; font-size: .9rem; }
+  .tabs { display: flex; gap: 0; margin-bottom: 20px; border: 1.5px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .tab { flex: 1; padding: 9px; text-align: center; cursor: pointer; font-weight: 600; font-size: .88rem; background: #f8fafc; border: none; transition: all .2s; }
+  .tab.active { background: var(--primary); color: #fff; }
+
+  /* ── GRID ── */
+  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+  .stat-card { background: var(--card); border-radius: var(--radius); padding: 20px; box-shadow: 0 1px 4px rgba(0,0,0,.08); display: flex; align-items: center; gap: 16px; }
+  .stat-icon { width: 52px; height: 52px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+  .stat-icon.blue { background: #dbeafe; }
+  .stat-icon.green { background: #dcfce7; }
+  .stat-icon.purple { background: #f3e8ff; }
+  .stat-icon.orange { background: #fed7aa; }
+  .stat-info h3 { font-size: 1.6rem; font-weight: 700; }
+  .stat-info p { color: var(--muted); font-size: .85rem; }
+
+  /* ── MODAL ── */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.5); display: flex; align-items: center; justify-content: center; z-index: 200; padding: 16px; }
+  .modal { background: #fff; border-radius: 14px; padding: 28px; max-width: 560px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,.3); }
+  .modal h3 { font-size: 1.1rem; margin-bottom: 20px; color: var(--primary); }
+  .modal-footer { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+
+  /* ── MISC ── */
+  .empty { text-align: center; padding: 40px; color: var(--muted); font-size: .95rem; }
+  .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+  .section-header h2 { font-size: 1.2rem; color: var(--primary); display: flex; align-items: center; gap: 8px; }
+  .hidden { display: none !important; }
+  .spinner { display: inline-block; width: 18px; height: 18px; border: 3px solid rgba(255,255,255,.4); border-top-color: #fff; border-radius: 50%; animation: spin .7s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .quick-info { background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 8px; padding: 14px 16px; font-size: .88rem; color: #0369a1; margin-bottom: 16px; }
+  .quick-info code { background: #e0f2fe; padding: 2px 6px; border-radius: 4px; font-family: monospace; }
+</style>
+</head>
+<body>
+
+<!-- ══════════════ LOGIN PAGE ══════════════ -->
+<div id="loginPage">
+  <div class="login-card">
+    <h1>🏥 Clinique Médicale</h1>
+    <p>Portail de gestion médicale</p>
+
+    <div class="quick-info">
+      <strong>Comptes de démo :</strong><br>
+      Admin : <code>admin@clinique.com</code> / <code>admin123</code><br>
+      Médecin : <code>dr.martin@clinique.com</code> / <code>medecin123</code><br>
+      Patient : inscrivez-vous ci-dessous
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('login')">Connexion</button>
+      <button class="tab" onclick="switchTab('register')">Inscription Patient</button>
+    </div>
+
+    <!-- LOGIN FORM -->
+    <div id="loginForm">
+      <div id="loginAlert"></div>
+      <div class="form-group" style="margin-bottom:12px">
+        <label>Email</label>
+        <input type="email" id="loginEmail" placeholder="votre@email.com" value="admin@clinique.com"/>
+      </div>
+      <div class="form-group" style="margin-bottom:20px">
+        <label>Mot de passe</label>
+        <input type="password" id="loginPassword" placeholder="••••••" value="admin123"/>
+      </div>
+      <button class="btn btn-primary" style="width:100%" onclick="doLogin()">
+        <span id="loginBtnText">Se connecter</span>
+      </button>
+    </div>
+
+    <!-- REGISTER FORM -->
+    <div id="registerForm" class="hidden">
+      <div id="registerAlert"></div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nom</label>
+          <input type="text" id="regNom" placeholder="Dupont"/>
+        </div>
+        <div class="form-group">
+          <label>Prénom</label>
+          <input type="text" id="regPrenom" placeholder="Marie"/>
+        </div>
+      </div>
+      <div class="form-group" style="margin-bottom:12px">
+        <label>Email</label>
+        <input type="email" id="regEmail" placeholder="marie.dupont@email.com"/>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Mot de passe</label>
+          <input type="password" id="regPassword" placeholder="••••••"/>
+        </div>
+        <div class="form-group">
+          <label>Téléphone</label>
+          <input type="text" id="regTel" placeholder="06 12 34 56 78"/>
+        </div>
+      </div>
+      <div class="form-group" style="margin-bottom:20px">
+        <label>Date de naissance</label>
+        <input type="date" id="regDob"/>
+      </div>
+      <button class="btn btn-success" style="width:100%" onclick="doRegister()">Créer mon compte</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ APP (shown after login) ══════════════ -->
+<div id="app" class="hidden">
+  <nav>
+    <div class="logo"><span>🏥</span> Clinique Médicale</div>
+    <div class="nav-links" id="navLinks"></div>
+    <div class="user-info">
+      <span class="user-badge" id="userBadge"></span>
+      <button class="btn-logout" onclick="logout()">Déconnexion</button>
+    </div>
+  </nav>
+  <main id="pageContent"></main>
+</div>
+
+<!-- ══════════════ MODAL CONTAINER ══════════════ -->
+<div id="modalContainer"></div>
+
+<script>
+const API = '';
+let token = null, currentUser = null;
+
+// ── UTILS ──
+const $ = id => document.getElementById(id);
+const fmt = dt => dt ? new Date(dt).toLocaleString('fr-FR', {day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}) : '–';
+const fmtDate = d => d ? new Date(d).toLocaleDateString('fr-FR') : '–';
+
+async function api(method, path, body) {
+  const headers = {'Content-Type':'application/json'};
+  if (token) headers['Authorization'] = 'Bearer ' + token;
+  const res = await fetch(API + path, { method, headers, body: body ? JSON.stringify(body) : undefined });
+  const text = await res.text();
+  let data;
+  try { data = JSON.parse(text); } catch { data = text; }
+  if (!res.ok) throw new Error(data?.message || data || res.statusText);
+  // Unwrap ApiResponse wrapper: { success, message, data: <actual payload> }
+  if (data && typeof data === 'object' && 'data' in data) return data.data;
+  return data;
+}
+
+function showAlert(id, msg, type='danger') {
+  $(id).innerHTML = `<div class="alert alert-${type}">${msg}</div>`;
+  setTimeout(() => { if($(id)) $(id).innerHTML=''; }, 5000);
+}
+
+function toast(msg, type='success') {
+  const t = document.createElement('div');
+  t.className = `alert alert-${type}`;
+  t.style.cssText = 'position:fixed;bottom:20px;right:20px;z-index:999;min-width:260px;box-shadow:0 4px 12px rgba(0,0,0,.15)';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 3500);
+}
+
+function modal(html) {
+  $('modalContainer').innerHTML = `<div class="modal-overlay" onclick="if(event.target===this)closeModal()">${html}</div>`;
+}
+function closeModal() { $('modalContainer').innerHTML = ''; }
+
+// ── AUTH ──
+function switchTab(t) {
+  document.querySelectorAll('.tab').forEach(b => b.classList.toggle('active', b.textContent.includes(t==='login'?'Connexion':'Inscription')));
+  $('loginForm').classList.toggle('hidden', t!=='login');
+  $('registerForm').classList.toggle('hidden', t!=='register');
+}
+
+async function doLogin() {
+  const email = $('loginEmail').value.trim();
+  const pw = $('loginPassword').value;
+  if (!email||!pw) return showAlert('loginAlert','Veuillez remplir tous les champs.');
+  $('loginBtnText').innerHTML = '<span class="spinner"></span>';
+  try {
+    const data = await api('POST','/api/auth/connexion',{email, motDePasse: pw});
+    token = data.token;
+    currentUser = data;
+    enterApp();
+  } catch(e) { showAlert('loginAlert', e.message); }
+  finally { $('loginBtnText').textContent = 'Se connecter'; }
+}
+
+async function doRegister() {
+  const nom=$('regNom').value.trim(), prenom=$('regPrenom').value.trim(),
+        email=$('regEmail').value.trim(), motDePasse=$('regPassword').value,
+        telephone=$('regTel').value.trim(), dateNaissance=$('regDob').value;
+  if (!nom||!prenom||!email||!motDePasse||!dateNaissance) return showAlert('registerAlert','Veuillez remplir tous les champs obligatoires.');
+  try {
+    await api('POST','/api/auth/inscription', {nom,prenom,email,motDePasse,telephone,dateNaissance});
+    showAlert('registerAlert','Compte créé ! Vous pouvez vous connecter.','success');
+    switchTab('login');
+    $('loginEmail').value = email;
+  } catch(e) { showAlert('registerAlert', e.message); }
+}
+
+function logout() { token=null; currentUser=null; $('app').classList.add('hidden'); $('loginPage').style.display='flex'; }
+
+function enterApp() {
+  $('loginPage').style.display='none';
+  $('app').classList.remove('hidden');
+  const role = currentUser.role;
+  $('userBadge').innerHTML = `${currentUser.prenom} ${currentUser.nom} <span class="badge badge-${role.replace('ROLE_','').toLowerCase()}">${role.replace('ROLE_','')}</span>`;
+  buildNav();
+  navigateTo('dashboard');
+}
+
+// ── NAVIGATION ──
+const PAGES = {
+  ROLE_ADMIN:   ['dashboard','rendezVous','patients','medecins','ordonnances','dossiers'],
+  ROLE_MEDECIN: ['dashboard','rendezVous','patients','ordonnances','dossiers'],
+  ROLE_PATIENT: ['dashboard','rendezVous','mesOrdonnances','mesDossiers'],
+};
+const PAGE_LABELS = {
+  dashboard:'Tableau de bord', rendezVous:'Rendez-vous', patients:'Patients',
+  medecins:'Médecins', ordonnances:'Ordonnances', dossiers:'Dossiers médicaux',
+  mesOrdonnances:'Mes Ordonnances', mesDossiers:'Mes Dossiers',
+};
+const PAGE_ICONS = {
+  dashboard:'📊', rendezVous:'📅', patients:'👥', medecins:'🩺',
+  ordonnances:'💊', dossiers:'📁', mesOrdonnances:'💊', mesDossiers:'📁',
+};
+
+function buildNav() {
+  const pages = PAGES[currentUser.role] || [];
+  $('navLinks').innerHTML = pages.map(p =>
+    `<button onclick="navigateTo('${p}')" id="nav_${p}">${PAGE_ICONS[p]} ${PAGE_LABELS[p]}</button>`
+  ).join('');
+}
+
+function navigateTo(page) {
+  document.querySelectorAll('.nav-links button').forEach(b => b.classList.remove('active'));
+  const btn = $('nav_'+page);
+  if(btn) btn.classList.add('active');
+  const pages = {
+    dashboard: renderDashboard,
+    rendezVous: renderRendezVous,
+    patients: renderPatients,
+    medecins: renderMedecins,
+    ordonnances: renderOrdonnances,
+    dossiers: renderDossiers,
+    mesOrdonnances: renderMesOrdonnances,
+    mesDossiers: renderMesDossiers,
+  };
+  if(pages[page]) pages[page]();
+}
+
+// ── DASHBOARD ──
+async function renderDashboard() {
+  $('pageContent').innerHTML = `<div class="card"><div class="spinner"></div> Chargement…</div>`;
+  try {
+    const role = currentUser.role;
+    let html = `<div class="grid-2" id="statsGrid"></div><div id="dashExtra"></div>`;
+    $('pageContent').innerHTML = html;
+
+    if (role === 'ROLE_ADMIN') {
+      const [rdvs, patients, medecins] = await Promise.all([
+        api('GET','/api/rendez-vous'), api('GET','/api/patients'), api('GET','/api/medecins')
+      ]);
+      const upcoming = rdvs.filter(r=>r.statut==='PLANIFIE'||r.statut==='CONFIRME').length;
+      $('statsGrid').innerHTML = `
+        <div class="stat-card"><div class="stat-icon blue">📅</div><div class="stat-info"><h3>${rdvs.length}</h3><p>Total rendez-vous</p></div></div>
+        <div class="stat-card"><div class="stat-icon green">✅</div><div class="stat-info"><h3>${upcoming}</h3><p>RDV à venir</p></div></div>
+        <div class="stat-card"><div class="stat-icon purple">👥</div><div class="stat-info"><h3>${patients.length}</h3><p>Patients</p></div></div>
+        <div class="stat-card"><div class="stat-icon orange">🩺</div><div class="stat-info"><h3>${medecins.length}</h3><p>Médecins</p></div></div>`;
+      $('dashExtra').innerHTML = renderRecentRdvTable(rdvs.slice(0,5));
+    } else if (role === 'ROLE_MEDECIN') {
+      const rdvs = await api('GET','/api/rendez-vous/mes-rendez-vous');
+      const upcoming = rdvs.filter(r=>r.statut==='PLANIFIE'||r.statut==='CONFIRME').length;
+      $('statsGrid').innerHTML = `
+        <div class="stat-card"><div class="stat-icon blue">📅</div><div class="stat-info"><h3>${rdvs.length}</h3><p>Mes rendez-vous</p></div></div>
+        <div class="stat-card"><div class="stat-icon green">✅</div><div class="stat-info"><h3>${upcoming}</h3><p>À venir</p></div></div>`;
+      $('dashExtra').innerHTML = renderRecentRdvTable(rdvs.slice(0,5));
+    } else {
+      const rdvs = await api('GET','/api/rendez-vous/mes-rendez-vous');
+      $('statsGrid').innerHTML = `
+        <div class="stat-card"><div class="stat-icon blue">📅</div><div class="stat-info"><h3>${rdvs.length}</h3><p>Mes rendez-vous</p></div></div>`;
+      $('dashExtra').innerHTML = renderRecentRdvTable(rdvs.slice(0,5));
+    }
+  } catch(e) { $('pageContent').innerHTML = `<div class="alert alert-danger">${e.message}</div>`; }
+}
+
+function renderRecentRdvTable(rdvs) {
+  if(!rdvs.length) return '<div class="card"><div class="empty">Aucun rendez-vous récent</div></div>';
+  return `<div class="card"><h2>📅 Rendez-vous récents</h2><div class="table-wrap"><table>
+    <thead><tr><th>Date</th><th>Patient</th><th>Médecin</th><th>Statut</th></tr></thead>
+    <tbody>${rdvs.map(r=>`<tr>
+      <td>${fmt(r.dateHeure)}</td>
+      <td>${r.patient?.prenom} ${r.patient?.nom}</td>
+      <td>Dr. ${r.medecin?.prenom} ${r.medecin?.nom}</td>
+      <td><span class="badge badge-${r.statut?.toLowerCase()}">${r.statut}</span></td>
+    </tr>`).join('')}</tbody></table></div></div>`;
+}
+
+// ── RENDEZ-VOUS ──
+async function renderRendezVous() {
+  $('pageContent').innerHTML = `<div class="card"><div class="spinner"></div> Chargement…</div>`;
+  try {
+    const isAdmin = currentUser.role === 'ROLE_ADMIN';
+    const isMedecin = currentUser.role === 'ROLE_MEDECIN';
+    const url = isAdmin ? '/api/rendez-vous' : '/api/rendez-vous/mes-rendez-vous';
+    const rdvs = await api('GET', url);
+
+    $('pageContent').innerHTML = `
+      <div class="card">
+        <div class="section-header">
+          <h2>📅 Rendez-vous</h2>
+          ${!isMedecin ? `<button class="btn btn-primary" onclick="openNewRdvModal()">＋ Nouveau RDV</button>` : ''}
+        </div>
+        <div id="rdvAlert"></div>
+        ${rdvs.length ? `<div class="table-wrap"><table>
+          <thead><tr><th>Date/Heure</th><th>Patient</th><th>Médecin</th><th>Motif</th><th>Durée</th><th>Statut</th><th>Actions</th></tr></thead>
+          <tbody>${rdvs.map(r => renderRdvRow(r)).join('')}</tbody>
+        </table></div>` : '<div class="empty">Aucun rendez-vous</div>'}
+      </div>`;
+  } catch(e) { $('pageContent').innerHTML = `<div class="alert alert-danger">${e.message}</div>`; }
+}
+
+function renderRdvRow(r) {
+  const role = currentUser.role;
+  const canConfirm = role==='ROLE_MEDECIN' && r.statut==='PLANIFIE';
+  const canTerminer = role==='ROLE_MEDECIN' && r.statut==='CONFIRME';
+  const canAnnuler = r.statut!=='ANNULE' && r.statut!=='TERMINE';
+  return `<tr>
+    <td>${fmt(r.dateHeure)}</td>
+    <td>${r.patient?.prenom} ${r.patient?.nom}</td>
+    <td>Dr. ${r.medecin?.prenom} ${r.medecin?.nom}</td>
+    <td>${r.motif||'–'}</td>
+    <td>${r.dureeMinutes} min</td>
+    <td><span class="badge badge-${r.statut?.toLowerCase()}">${r.statut}</span></td>
+    <td style="display:flex;gap:6px;flex-wrap:wrap">
+      ${canConfirm ? `<button class="btn btn-success btn-sm" onclick="confirmerRdv(${r.id})">✓ Confirmer</button>` : ''}
+      ${canTerminer ? `<button class="btn btn-secondary btn-sm" onclick="terminerRdv(${r.id})">✓ Terminer</button>` : ''}
+      ${canAnnuler ? `<button class="btn btn-danger btn-sm" onclick="annulerRdv(${r.id})">✗ Annuler</button>` : ''}
+    </td>
+  </tr>`;
+}
+
+async function openNewRdvModal() {
+  const medecins = await api('GET','/api/medecins');
+  const isAdmin = currentUser.role === 'ROLE_ADMIN';
+  let patientField = '';
+  if (isAdmin) {
+    const patients = await api('GET','/api/patients');
+    patientField = `<div class="form-group">
+      <label>Patient</label>
+      <select id="rdvPatientId"><option value="">-- Sélectionner --</option>
+        ${patients.map(p=>`<option value="${p.id}">${p.prenom} ${p.nom}</option>`).join('')}
+      </select></div>`;
+  }
+  modal(`<div class="modal">
+    <h3>📅 Nouveau Rendez-vous</h3>
+    <div id="rdvModalAlert"></div>
+    <div class="form-row">
+      ${patientField}
+      <div class="form-group">
+        <label>Médecin</label>
+        <select id="rdvMedecinId">
+          ${medecins.map(m=>`<option value="${m.id}">Dr. ${m.prenom} ${m.nom} – ${m.specialite}</option>`).join('')}
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Date et Heure</label>
+        <input type="datetime-local" id="rdvDateHeure"/>
+      </div>
+      <div class="form-group">
+        <label>Durée (min)</label>
+        <input type="number" id="rdvDuree" value="30" min="15" step="15"/>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Motif</label>
+      <input type="text" id="rdvMotif" placeholder="Consultation générale…"/>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal()">Annuler</button>
+      <button class="btn btn-primary" onclick="submitNewRdv()">Créer</button>
+    </div>
+  </div>`);
+}
+
+async function submitNewRdv() {
+  const isAdmin = currentUser.role === 'ROLE_ADMIN';
+  const body = {
+    medecinId: parseInt($('rdvMedecinId').value),
+    dateHeure: $('rdvDateHeure').value,
+    dureeMinutes: parseInt($('rdvDuree').value)||30,
+    motif: $('rdvMotif').value,
+  };
+  if (isAdmin) body.patientId = parseInt($('rdvPatientId').value);
+  if (!body.dateHeure) return showAlert('rdvModalAlert','Veuillez sélectionner une date.');
+  try {
+    const url = isAdmin ? '/api/rendez-vous/admin' : '/api/rendez-vous';
+    await api('POST', url, body);
+    closeModal(); toast('Rendez-vous créé !'); renderRendezVous();
+  } catch(e) { showAlert('rdvModalAlert', e.message); }
+}
+
+async function confirmerRdv(id) {
+  try { await api('PATCH',`/api/rendez-vous/${id}/confirmer`); toast('RDV confirmé !'); renderRendezVous(); }
+  catch(e) { toast(e.message,'danger'); }
+}
+async function terminerRdv(id) {
+  try { await api('PATCH',`/api/rendez-vous/${id}/terminer`); toast('RDV terminé !'); renderRendezVous(); }
+  catch(e) { toast(e.message,'danger'); }
+}
+async function annulerRdv(id) {
+  if(!confirm('Confirmer l\'annulation ?')) return;
+  try { await api('DELETE',`/api/rendez-vous/${id}`); toast('RDV annulé.','info'); renderRendezVous(); }
+  catch(e) { toast(e.message,'danger'); }
+}
+
+// ── PATIENTS ──
+async function renderPatients() {
+  $('pageContent').innerHTML = `<div class="card"><div class="spinner"></div> Chargement…</div>`;
+  try {
+    const patients = await api('GET','/api/patients');
+    $('pageContent').innerHTML = `<div class="card">
+      <div class="section-header">
+        <h2>👥 Patients</h2>
+        <button class="btn btn-primary" onclick="openNewPatientModal()">＋ Nouveau Patient</button>
+      </div>
+      ${patients.length ? `<div class="table-wrap"><table>
+        <thead><tr><th>Nom</th><th>Email</th><th>Téléphone</th><th>Date de naissance</th><th>N° Dossier</th><th>Statut</th></tr></thead>
+        <tbody>${patients.map(p=>`<tr>
+          <td><strong>${p.prenom} ${p.nom}</strong></td>
+          <td>${p.email}</td>
+          <td>${p.telephone||'–'}</td>
+          <td>${fmtDate(p.dateNaissance)}</td>
+          <td><code>${p.numeroDossier}</code></td>
+          <td><span class="badge" style="background:${p.actif?'#dcfce7':'#fee2e2'};color:${p.actif?'#15803d':'#991b1b'}">${p.actif?'Actif':'Inactif'}</span></td>
+        </tr>`).join('')}</tbody></table></div>` : '<div class="empty">Aucun patient</div>'}
+    </div>`;
+  } catch(e) { $('pageContent').innerHTML = `<div class="alert alert-danger">${e.message}</div>`; }
+}
+
+// ── MÉDECINS ──
+async function renderMedecins() {
+  $('pageContent').innerHTML = `<div class="card"><div class="spinner"></div> Chargement…</div>`;
+  try {
+    const medecins = await api('GET','/api/medecins');
+    const isAdmin = currentUser.role==='ROLE_ADMIN';
+    $('pageContent').innerHTML = `<div class="card">
+      <div class="section-header">
+        <h2>🩺 Médecins</h2>
+        ${isAdmin?`<button class="btn btn-primary" onclick="openNewMedecinModal()">＋ Nouveau Médecin</button>`:''}
+      </div>
+      <div id="medecinAlert"></div>
+      ${medecins.length ? `<div class="table-wrap"><table>
+        <thead><tr><th>Nom</th><th>Email</th><th>Spécialité</th><th>Horaires</th><th>Durée consult.</th><th>Statut</th>${isAdmin?'<th>Actions</th>':''}</tr></thead>
+        <tbody>${medecins.map(m=>`<tr>
+          <td><strong>Dr. ${m.prenom} ${m.nom}</strong></td>
+          <td>${m.email}</td>
+          <td>${m.specialite||'–'}</td>
+          <td>${m.heureDebutTravail||'–'} → ${m.heureFinTravail||'–'}</td>
+          <td>${m.dureeConsultationMinutes} min</td>
+          <td><span class="badge" style="background:${m.actif?'#dcfce7':'#fee2e2'};color:${m.actif?'#15803d':'#991b1b'}">${m.actif?'Actif':'Inactif'}</span></td>
+          ${isAdmin?`<td><button class="btn btn-danger btn-sm" onclick="desactiverMedecin(${m.id})">Désactiver</button></td>`:''}
+        </tr>`).join('')}</tbody></table></div>` : '<div class="empty">Aucun médecin</div>'}
+    </div>`;
+  } catch(e) { $('pageContent').innerHTML = `<div class="alert alert-danger">${e.message}</div>`; }
+}
+
+const SPECIALITES = ['GENERALISTE','CARDIOLOGIE','DERMATOLOGIE','NEUROLOGIE','PEDIATRIE','GYNECOLOGIE','ORTHOPEDIE','OPHTALMOLOGIE','ORL','PSYCHIATRIE','RADIOLOGIE','UROLOGIE'];
+
+function openNewMedecinModal() {
+  modal(`<div class="modal">
+    <h3>🩺 Nouveau Médecin</h3>
+    <div id="medecinModalAlert"></div>
+    <div class="form-row">
+      <div class="form-group"><label>Nom</label><input type="text" id="mNom"/></div>
+      <div class="form-group"><label>Prénom</label><input type="text" id="mPrenom"/></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Email</label><input type="email" id="mEmail"/></div>
+      <div class="form-group"><label>Mot de passe</label><input type="password" id="mPw"/></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Spécialité</label>
+        <select id="mSpecialite">${SPECIALITES.map(s=>`<option value="${s}">${s}</option>`).join('')}</select>
+      </div>
+      <div class="form-group"><label>Durée consult. (min)</label><input type="number" id="mDuree" value="30" min="15" step="15"/></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Début travail</label><input type="time" id="mDebut" value="08:00"/></div>
+      <div class="form-group"><label>Fin travail</label><input type="time" id="mFin" value="17:00"/></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal()">Annuler</button>
+      <button class="btn btn-primary" onclick="submitNewMedecin()">Créer</button>
+    </div>
+  </div>`);
+}
+
+async function submitNewMedecin() {
+  const body = {
+    nom:$('mNom').value, prenom:$('mPrenom').value, email:$('mEmail').value,
+    motDePasse:$('mPw').value, specialite:$('mSpecialite').value,
+    dureeConsultationMinutes:parseInt($('mDuree').value)||30,
+    heureDebutTravail:$('mDebut').value, heureFinTravail:$('mFin').value,
+  };
+  try {
+    await api('POST','/api/medecins',body);
+    closeModal(); toast('Médecin créé !'); renderMedecins();
+  } catch(e) { showAlert('medecinModalAlert', e.message); }
+}
+
+async function desactiverMedecin(id) {
+  if(!confirm('Désactiver ce médecin ?')) return;
+  try { await api('DELETE',`/api/medecins/${id}`); toast('Médecin désactivé.','info'); renderMedecins(); }
+  catch(e) { toast(e.message,'danger'); }
+}
+
+// ── ORDONNANCES (admin/médecin) ──
+async function renderOrdonnances() {
+  $('pageContent').innerHTML = `<div class="card"><div class="spinner"></div> Chargement…</div>`;
+  try {
+    const ordonnances = await api('GET','/api/ordonnances');
+    const isMedecin = currentUser.role==='ROLE_MEDECIN';
+    $('pageContent').innerHTML = `<div class="card">
+      <div class="section-header">
+        <h2>💊 Ordonnances</h2>
+        ${isMedecin?`<button class="btn btn-primary" onclick="openNewOrdoModal()">＋ Nouvelle Ordonnance</button>`:''}
+      </div>
+      ${renderOrdoTable(ordonnances)}
+    </div>`;
+  } catch(e) { $('pageContent').innerHTML = `<div class="alert alert-danger">${e.message}</div>`; }
+}
+
+async function renderMesOrdonnances() {
+  $('pageContent').innerHTML = `<div class="card"><div class="spinner"></div> Chargement…</div>`;
+  try {
+    const ordonnances = await api('GET','/api/ordonnances/mes-ordonnances');
+    $('pageContent').innerHTML = `<div class="card"><div class="section-header"><h2>💊 Mes Ordonnances</h2></div>${renderOrdoTable(ordonnances)}</div>`;
+  } catch(e) { $('pageContent').innerHTML = `<div class="alert alert-danger">${e.message}</div>`; }
+}
+
+function renderOrdoTable(ordonnances) {
+  if(!ordonnances.length) return '<div class="empty">Aucune ordonnance</div>';
+  return `<div class="table-wrap"><table>
+    <thead><tr><th>Date</th><th>Patient</th><th>Médecin</th><th>Médicaments</th><th>Posologie</th><th>Expiration</th></tr></thead>
+    <tbody>${ordonnances.map(o=>`<tr>
+      <td>${fmt(o.dateCreation)}</td>
+      <td>${o.patient?.prenom} ${o.patient?.nom}</td>
+      <td>Dr. ${o.medecin?.prenom} ${o.medecin?.nom}</td>
+      <td>${o.medicaments}</td>
+      <td>${o.posologie}</td>
+      <td>${fmtDate(o.dateValiditeExpiration)}</td>
+    </tr>`).join('')}</tbody></table></div>`;
+}
+
+async function openNewOrdoModal() {
+  const rdvs = await api('GET','/api/rendez-vous/mes-rendez-vous');
+  const confirmes = rdvs.filter(r=>r.statut==='CONFIRME'||r.statut==='PLANIFIE');
+  modal(`<div class="modal">
+    <h3>💊 Nouvelle Ordonnance</h3>
+    <div id="ordoModalAlert"></div>
+    <div class="form-group" style="margin-bottom:12px">
+      <label>Rendez-vous</label>
+      <select id="ordoRdvId">
+        <option value="">-- Sélectionner --</option>
+        ${confirmes.map(r=>`<option value="${r.id}">${fmt(r.dateHeure)} – ${r.patient?.prenom} ${r.patient?.nom}</option>`).join('')}
+      </select>
+    </div>
+    <div class="form-group" style="margin-bottom:12px">
+      <label>Médicaments</label>
+      <textarea id="ordoMeds" rows="2" placeholder="Paracétamol 1000mg, Ibuprofène 400mg…"></textarea>
+    </div>
+    <div class="form-group" style="margin-bottom:12px">
+      <label>Posologie</label>
+      <textarea id="ordoPoso" rows="2" placeholder="3x/jour pendant 7 jours…"></textarea>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Date d'expiration</label>
+        <input type="date" id="ordoExpiry"/>
+      </div>
+      <div class="form-group">
+        <label>Instructions spéciales</label>
+        <input type="text" id="ordoInst" placeholder="À prendre avec de la nourriture…"/>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal()">Annuler</button>
+      <button class="btn btn-primary" onclick="submitNewOrdo()">Créer</button>
+    </div>
+  </div>`);
+}
+
+async function submitNewOrdo() {
+  const body = {
+    rendezVousId: parseInt($('ordoRdvId').value),
+    medicaments: $('ordoMeds').value,
+    posologie: $('ordoPoso').value,
+    dateValiditeExpiration: $('ordoExpiry').value,
+    instructionsSpeciales: $('ordoInst').value,
+  };
+  if(!body.rendezVousId||!body.medicaments||!body.posologie||!body.dateValiditeExpiration)
+    return showAlert('ordoModalAlert','Veuillez remplir tous les champs obligatoires.');
+  try {
+    await api('POST','/api/ordonnances',body);
+    closeModal(); toast('Ordonnance créée !'); renderOrdonnances();
+  } catch(e) { showAlert('ordoModalAlert', e.message); }
+}
+
+// ── DOSSIERS MÉDICAUX ──
+async function renderDossiers() {
+  $('pageContent').innerHTML = `<div class="card"><div class="spinner"></div> Chargement…</div>`;
+  try {
+    const dossiers = await api('GET','/api/dossiers-medicaux');
+    const isMedecin = currentUser.role==='ROLE_MEDECIN';
+    $('pageContent').innerHTML = `<div class="card">
+      <div class="section-header">
+        <h2>📁 Dossiers Médicaux</h2>
+        ${isMedecin?`<button class="btn btn-primary" onclick="openNewDossierModal()">＋ Nouveau Dossier</button>`:''}
+      </div>
+      ${renderDossierTable(dossiers)}
+    </div>`;
+  } catch(e) { $('pageContent').innerHTML = `<div class="alert alert-danger">${e.message}</div>`; }
+}
+
+async function renderMesDossiers() {
+  $('pageContent').innerHTML = `<div class="card"><div class="spinner"></div> Chargement…</div>`;
+  try {
+    const dossiers = await api('GET','/api/dossiers-medicaux/mes-dossiers');
+    $('pageContent').innerHTML = `<div class="card"><div class="section-header"><h2>📁 Mes Dossiers Médicaux</h2></div>${renderDossierTable(dossiers)}</div>`;
+  } catch(e) { $('pageContent').innerHTML = `<div class="alert alert-danger">${e.message}</div>`; }
+}
+
+function renderDossierTable(dossiers) {
+  if(!dossiers.length) return '<div class="empty">Aucun dossier médical</div>';
+  return `<div class="table-wrap"><table>
+    <thead><tr><th>Date</th><th>Patient</th><th>Médecin</th><th>Diagnostic</th><th>Symptômes</th><th>Notes</th></tr></thead>
+    <tbody>${dossiers.map(d=>`<tr>
+      <td>${fmt(d.dateConsultation)}</td>
+      <td>${d.patient?.prenom} ${d.patient?.nom}</td>
+      <td>Dr. ${d.medecin?.prenom} ${d.medecin?.nom}</td>
+      <td>${d.diagnostic||'–'}</td>
+      <td>${d.symptomes||'–'}</td>
+      <td>${d.notesMedecin||'–'}</td>
+    </tr>`).join('')}</tbody></table></div>`;
+}
+
+async function openNewDossierModal() {
+  const patients = await api('GET','/api/patients');
+  modal(`<div class="modal">
+    <h3>📁 Nouveau Dossier Médical</h3>
+    <div id="dossierModalAlert"></div>
+    <div class="form-group" style="margin-bottom:12px">
+      <label>Patient</label>
+      <select id="dosPatientId"><option value="">-- Sélectionner --</option>
+        ${patients.map(p=>`<option value="${p.id}">${p.prenom} ${p.nom}</option>`).join('')}
+      </select>
+    </div>
+    <div class="form-group" style="margin-bottom:12px">
+      <label>Diagnostic</label>
+      <textarea id="dosDiag" rows="2"></textarea>
+    </div>
+    <div class="form-group" style="margin-bottom:12px">
+      <label>Symptômes</label>
+      <textarea id="dosSym" rows="2"></textarea>
+    </div>
+    <div class="form-group" style="margin-bottom:12px">
+      <label>Notes du médecin</label>
+      <textarea id="dosNotes" rows="2"></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal()">Annuler</button>
+      <button class="btn btn-primary" onclick="submitNewDossier()">Créer</button>
+    </div>
+  </div>`);
+}
+
+async function submitNewDossier() {
+  const body = {
+    patientId: parseInt($('dosPatientId').value),
+    diagnostic: $('dosDiag').value,
+    symptomes: $('dosSym').value,
+    notesMedecin: $('dosNotes').value,
+  };
+  if(!body.patientId) return showAlert('dossierModalAlert','Veuillez sélectionner un patient.');
+  try {
+    await api('POST','/api/dossiers-medicaux',body);
+    closeModal(); toast('Dossier créé !'); renderDossiers();
+  } catch(e) { showAlert('dossierModalAlert', e.message); }
+}
+
+
+// ── PATIENTS – Ajouter un patient ──
+function openNewPatientModal() {
+  modal(`<div class="modal">
+    <h3>👥 Nouveau Patient</h3>
+    <div id="patientModalAlert"></div>
+    <div class="form-row">
+      <div class="form-group"><label>Nom</label><input type="text" id="pNom"/></div>
+      <div class="form-group"><label>Prénom</label><input type="text" id="pPrenom"/></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Email</label><input type="email" id="pEmail"/></div>
+      <div class="form-group"><label>Mot de passe</label><input type="password" id="pPw"/></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Téléphone</label><input type="tel" id="pTel"/></div>
+      <div class="form-group"><label>Date de naissance</label><input type="date" id="pDob"/></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal()">Annuler</button>
+      <button class="btn btn-primary" onclick="submitNewPatient()">Créer</button>
+    </div>
+  </div>`);
+}
+
+async function submitNewPatient() {
+  const body = {
+    nom: $('pNom').value,
+    prenom: $('pPrenom').value,
+    email: $('pEmail').value,
+    motDePasse: $('pPw').value,
+    telephone: $('pTel').value,
+    dateNaissance: $('pDob').value,
+  };
+  if(!body.nom||!body.prenom||!body.email||!body.motDePasse||!body.dateNaissance)
+    return showAlert('patientModalAlert','Veuillez remplir tous les champs obligatoires.');
+  try {
+    await api('POST','/api/patients', body);
+    closeModal(); toast('Patient créé !'); renderPatients();
+  } catch(e) { showAlert('patientModalAlert', e.message); }
+}
+
+// ── KEYBOARD SHORTCUT (Enter on login) ──
+document.addEventListener('keydown', e => {
+  if (e.key==='Enter' && $('loginPage').style.display!=='none') doLogin();
+});
+</script>
+</body>
+</html>
